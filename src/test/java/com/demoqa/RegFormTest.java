@@ -18,8 +18,7 @@ public class RegFormTest {
     String mobile = "2146703687";
     String birthYear = "1999";
     String birthMnth = "May";
-    String birthDay = "29";
-    String dobClass = ".react-datepicker__day--0";
+    String birthDay = "15";
     String subject1 = "Accounting";
     String subject2 = "Math";
     String hobby1 = "Reading";
@@ -32,7 +31,7 @@ public class RegFormTest {
 
     @BeforeAll
     static void beforeAll() {
-        // Configuration.holdBrowserOpen = true;
+        Configuration.holdBrowserOpen = true;
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1280x960";
         Configuration.baseUrl = "https://demoqa.com";
@@ -58,7 +57,10 @@ public class RegFormTest {
         $("#dateOfBirthInput").click();
         $(".react-datepicker__year-select").selectOption(birthYear);
         $(".react-datepicker__month-select").selectOption(birthMnth);
-        $(dobClass + birthDay + ":not(.react-datepicker__day--outside-month)").click();
+        if (Integer.parseInt(birthDay) > 15) {
+            $(".react-datepicker__month").$$(byText(birthDay)).last().click();
+        } else
+            $(".react-datepicker__month").$$(byText(birthDay)).first().click();
 
         $("#subjectsInput").setValue(subject1).pressEnter();
         $("#subjectsInput").setValue(subject2).pressEnter();
